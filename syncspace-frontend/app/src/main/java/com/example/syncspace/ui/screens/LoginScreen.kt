@@ -1,0 +1,195 @@
+package com.example.syncspace.ui.screens
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.syncspace.ui.components.AuthTopBar
+import com.example.syncspace.ui.components.AuthUnderlineTextField
+import com.example.syncspace.ui.components.GoogleSignInButton
+import com.example.syncspace.ui.components.OrDivider
+import com.example.syncspace.ui.components.PrimaryButton
+import com.example.syncspace.ui.theme.SyncSpaceTheme
+import com.example.syncspace.ui.theme.SyncSpaceThemeTokens
+
+@Composable
+fun LoginScreen(
+    modifier: Modifier = Modifier,
+    onBackClick: () -> Unit = {},
+    onLoginClick: (email: String) -> Unit = {},
+    onForgotPasswordClick: () -> Unit = {},
+    onGoogleSignInClick: () -> Unit = {},
+    onRegisterClick: () -> Unit = {}
+) {
+    val colors = SyncSpaceThemeTokens.colors
+    var emailOrUsername by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .background(Color.White)
+    ) {
+        BoxWithConstraints(
+            modifier = Modifier
+                .fillMaxSize()
+                .statusBarsPadding()
+                .navigationBarsPadding()
+                .imePadding()
+        ) {
+            val minScreenHeight = maxHeight
+
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .defaultMinSize(minHeight = minScreenHeight),
+                    verticalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Column(modifier = Modifier.fillMaxWidth()) {
+                        Spacer(modifier = Modifier.height(34.dp))
+
+                        AuthTopBar(
+                            title = "Log In",
+                            onBackClick = onBackClick,
+                            modifier = Modifier.padding(start = 42.dp, end = 24.dp)
+                        )
+
+                        Spacer(modifier = Modifier.height(39.dp))
+
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 24.dp)
+                        ) {
+                            AuthUnderlineTextField(
+                                label = "GMAIL / USERNAME",
+                                value = emailOrUsername,
+                                onValueChange = { emailOrUsername = it },
+                                placeholder = "Enter your gmail or username",
+                                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                                isValid = emailOrUsername.isNotEmpty(),
+                                showClearIcon = true
+                            )
+
+                            Spacer(modifier = Modifier.height(14.dp))
+
+                            AuthUnderlineTextField(
+                                label = "PASSWORD",
+                                value = password,
+                                onValueChange = { password = it },
+                                placeholder = "Enter your password",
+                                visualTransformation = PasswordVisualTransformation(),
+                                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                                isValid = password.isNotEmpty(),
+                                showClearIcon = false
+                            )
+
+                            Spacer(modifier = Modifier.height(15.dp))
+
+                            Text(
+                                text = "I forgot my password",
+                                fontFamily = FontFamily.SansSerif,
+                                fontWeight = FontWeight.Medium,
+                                fontSize = 14.sp,
+                                lineHeight = 20.sp,
+                                color = colors.black60,
+                                modifier = Modifier.clickable(onClick = onForgotPasswordClick)
+                            )
+                        }
+                    }
+
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 48.dp, bottom = 36.dp)
+                            .padding(horizontal = 42.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Column(
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalArrangement = Arrangement.spacedBy(6.dp)
+                        ) {
+                            PrimaryButton(
+                                text = "Log In",
+                                onClick = { onLoginClick(emailOrUsername) }
+                            )
+
+                            OrDivider()
+
+                            GoogleSignInButton(onClick = onGoogleSignInClick)
+                        }
+
+                        Spacer(modifier = Modifier.height(20.dp))
+
+                        Row(
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = "Don’t have account?",
+                                fontFamily = FontFamily.SansSerif,
+                                fontWeight = FontWeight.Medium,
+                                fontSize = 16.sp,
+                                lineHeight = 20.sp,
+                                color = colors.authFooterGray
+                            )
+                            Text(
+                                text = " Let’s create!",
+                                fontFamily = FontFamily.SansSerif,
+                                fontWeight = FontWeight.Medium,
+                                fontSize = 16.sp,
+                                lineHeight = 20.sp,
+                                color = colors.primaryNavy,
+                                modifier = Modifier.clickable(onClick = onRegisterClick)
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun LoginScreenPreview() {
+    SyncSpaceTheme {
+        LoginScreen()
+    }
+}
