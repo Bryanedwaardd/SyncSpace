@@ -33,19 +33,19 @@ public class MlClientService {
             Map<String, String> payload = Map.of("text", text);
             var request = new HttpEntity<>(payload, headers);
 
-            String jsonResponse = restTemplate.postForObject(mlBaseUrl + "/parse", request, String.class);
+            String jsonResponse = restTemplate.postForObject(mlBaseUrl + "/api/v1/parse/text", request, String.class);
             return jsonResponse != null ? objectMapper.readValue(jsonResponse, Map.class) : new HashMap<>();
         } catch (Exception e) {
-            throw new RuntimeException("Gagal menghubungi ML Service (/parse): " + e.getMessage(), e);
+            throw new RuntimeException("Gagal menghubungi ML Service (/api/v1/parse/text): " + e.getMessage(), e);
         }
     }
 
     public Map<String, Object> parseVoice(MultipartFile file) {
-        return sendMultipart(mlBaseUrl + "/parse-voice", file);
+        return sendMultipart(mlBaseUrl + "/api/v1/parse/voice", file);
     }
 
     public Map<String, Object> parseReceipt(MultipartFile file) {
-        return sendMultipart(mlBaseUrl + "/parse-receipt", file);
+        return sendMultipart(mlBaseUrl + "/api/v1/parse/image", file);
     }
 
     @SuppressWarnings("unchecked")

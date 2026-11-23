@@ -46,7 +46,7 @@ public class TransactionController {
     }
 
     // 4. Input foto struk -> ML FastAPI (/parse-receipt)
-    @PostMapping("/parse-receipt")
+    @PostMapping("/parse-image")
     public ResponseEntity<Transaction> parseReceipt(
             @RequestParam Long workspaceId,
             @RequestParam Long userId,

@@ -46,19 +46,19 @@ public class TransactionService {
         return saveFromMlResult(workspaceId, userId, rawText, mlResult);
     }
 
-    // 2. Proses Voice Note -> FastAPI /parse-voice
+    // 2. Proses Voice Note -> FastAPI /api/v1/parse/voice
     @Transactional
     public Transaction processMlVoiceTransaction(Long workspaceId, Long userId, MultipartFile file) {
         Map<String, Object> mlResult = mlClientService.parseVoice(file);
-        String transcript = (String) mlResult.getOrDefault("text", "Voice Note");
+        String transcript = (String) mlResult.getOrDefault("extracted_text", "Voice Note");
         return saveFromMlResult(workspaceId, userId, transcript, mlResult);
     }
 
-    // 3. Proses Foto Struk -> FastAPI /parse-receipt
+    // 3. Proses Foto Struk -> FastAPI /api/v1/parse/image
     @Transactional
     public Transaction processMlReceiptTransaction(Long workspaceId, Long userId, MultipartFile file) {
         Map<String, Object> mlResult = mlClientService.parseReceipt(file);
-        String ocrText = (String) mlResult.getOrDefault("text", "Foto Struk");
+        String ocrText = (String) mlResult.getOrDefault("extracted_text", "Foto Struk");
         return saveFromMlResult(workspaceId, userId, ocrText, mlResult);
     }
 
