@@ -1,0 +1,19 @@
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# hasil uji / debug
+ocr_result.txt
+debug_preprocessed.png
+
+# model hasil training (bisa dibuat ulang dengan: python src/train.py)
+models/*.joblib
+
+# data pribadi uji: foto struk & rekaman suara
+*.wav
+*.mp3
+*.m4a
+*.jpg
+*.jpeg
+*.png
