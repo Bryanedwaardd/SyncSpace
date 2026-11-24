@@ -47,7 +47,7 @@ import com.example.syncspace.ui.theme.SyncSpaceThemeTokens
 fun RegisterScreen(
     modifier: Modifier = Modifier,
     onBackClick: () -> Unit = {},
-    onRegisterClick: (email: String) -> Unit = {},
+    onRegisterClick: (username: String, email: String, password: String) -> Unit = { _, _, _ -> },
     onGoogleSignInClick: () -> Unit = {},
     onLoginClick: () -> Unit = {}
 ) {
@@ -146,7 +146,7 @@ fun RegisterScreen(
                         ) {
                             PrimaryButton(
                                 text = "Register",
-                                onClick = { onRegisterClick(email) }
+                                onClick = { onRegisterClick(username, email, password) }
                             )
 
                             OrDivider()

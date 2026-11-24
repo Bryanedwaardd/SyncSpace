@@ -47,7 +47,7 @@ import com.example.syncspace.ui.theme.SyncSpaceThemeTokens
 fun LoginScreen(
     modifier: Modifier = Modifier,
     onBackClick: () -> Unit = {},
-    onLoginClick: (email: String) -> Unit = {},
+    onLoginClick: (email: String, password: String) -> Unit = { _, _ -> },
     onForgotPasswordClick: () -> Unit = {},
     onGoogleSignInClick: () -> Unit = {},
     onRegisterClick: () -> Unit = {}
@@ -147,7 +147,7 @@ fun LoginScreen(
                         ) {
                             PrimaryButton(
                                 text = "Log In",
-                                onClick = { onLoginClick(emailOrUsername) }
+                                onClick = { onLoginClick(emailOrUsername, password) }
                             )
 
                             OrDivider()
